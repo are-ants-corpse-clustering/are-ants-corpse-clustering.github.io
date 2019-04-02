@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Ants Clustering ARE</title>
+	<link rel="stylesheet" type="text/css" href="ants.css">
+</head>
+<body>
+	<h1>Ants Corpse Clustering</h1>
+	<h2 class="infos">Sommaire</h2>
+	<div class="liste">
+		<ol>
+			<a href=#membres><li >Membres du groupe</li></a>
+			<a href=#introduction><li >Introduction du projet</li></a>
+			<a href=#principe><li >Principe physique</li></a>
+			<a href=#first><li >Premier modèle d'approche</li></a>
+			<a href=#deneubourg><li >Le modèle de Deneubourg</li></a>
+		</ol>
+	</div>
+
+	<h2 class="infos" id="membres">Membres du groupe</h2>
+	<div class="liste">
+		<ul>
+			<li><strong>ABED</strong> Selmen</li>
+			<li><strong>CHOQUER</strong> Laurène</li>
+			<li><strong>HEBERT</strong> Thomas</li>
+			<li><strong>NATCHIMIE</strong> Dylan</li>
+		</ul>
+	</div>
+	
+	<h2 class="intro" id="introduction">Introduction du projet</h2>
+	<p>
+	Dans le cadre de notre ARE nous avons choisi de porter notre étude sur le comportement des fourmis. Plus particulièrement nous allons nous intéresser à la manière dont les fourmis agrègent leur cadavre. En effet on constate que dans la nature les fourmis ont tendance à réunir leur cadavre en vastes tas réguliers dans l'espace. Ce phénomène est observable à l'intérieur ou à l'extérieur des fourmilières (dans le cas des fourmilières, une pièce de la fourmilière est spécialement dédiée au rassemblement des cadavres de fourmis).
+	</p>
+	
+	<h2 id="principe">Principe physique</h2>
+	<p>
+	Après le décès d’une fourmi celle-ci dégage une substance chimique. Cette substance une fois libéree dans l’air attire les autres fourmis. Celles-ci on alors une réaction qu’on peut qualifier de mécanique.  En effet une fois que ce signal chimique est émis dans l’air une fourmi aux alentours se saisit du cadavre afin de l’emmener directement sur un tas qui peut s’apparenter à nos cimetières. C’est à ce phénomène que nous allons nous intéresser dans notre étude. Les images suivantes illustrent parfaitement le phénomène.
+	</p>
+	<img class="clustering" src="Images/clustering-effect.png" alt="Clustering effect" title="Clustering effect" />
+	<p>
+	Ainsi nous avons décidé de modéliser ce phénomène et de d'implémenter notre modélisation en utilisant le langage Python. Pour aboutir à des résultats intéressants, nous avons décidé de présenter plusieurs modèles ayant chacun leur avantage et leur inconvénient et de les confronter entre eux.
+	</p>
+	<p>
+	Dans tous les cas nos fourmis peuvent être dans trois états distincts: <br>
+	Dans le premier elles sont vivantes. <br> <img class="fourmi" src="Images/fourmi-vivante.png" alt="Fourmi vivante" title="Fourmi vivante" /> <br>
+	Dans le second cas elles sont mortes. <br> <img class="fourmi" src="Images/fourmi-morte.png" alt="Fourmi morte" title="Fourmi morte" /> <br>
+	Dans le dernier cas elles sont vivantes mais elles portent une fourmi morte. <br> <img class="fourmi" src="Images/fourmi-transport.png" alt="Fourmi qui transporte un cadavre" title="Fourmi qui transporte un cadavre" /> <br>
+	</p>
+	
+	<h2 id="first">Premier modèle d'approche</h2>
+	<p>
+	Ce modèle propose de modéliser le comportement des fourmis. Ainsi ce modèle prend en compte différentes conditions. On suppose tout d’abord que les fourmis n’ont pas de mémoire ainsi elles peuvent transporter plusieurs fois le même corps et elle le dépose dès qu’elle détecte la présence d’un autre corps dans les environs. La fourmi ne prend en compte que la présence d'autres fourmis dans son voisinage afin de prendre une décision donc aucune probabilité n'est définie. De plus dans ce modèle la fourmi à la possibilité de se déplacer dans 8 directions de manière aléatoire néanmoins la fourmi ne peut pas marcher sur un obstacle, ainsi elle ne peut pas marcher sur une fourmi morte ou vivante. <br>
+	Néanmoins dans ce modèle on constate que les fourmis ont du mal à former des tas de cadavres et qu’elles peuvent se retrouver coincées entre des corps ce qui pose problème dans le programme.
+	</p>
+	
+	<h2 id="deneubourg">Le modèle de Deneubourg</h2>
+	<p>
+	Toujours dans le but de décrire et simuler informatiquement le phénomène qui nous intéresse, nous avons implémeneter un autre modèle : celui de Deneubourg. Néanmoins on constate des différences entre les deux modèles. En effet on peut noter que dans le modèle de Deneubourg les fourmis ont la possibilité de se déplacer dans 4 directions différentes et elles peuvent également marcher sur les cadavres de fourmis (mais pas sur les autres fourmis vivantes).<br>
+	Il est également important de souligner que dans le modèle d’Unige les fourmis ne possèdent pas de mémoire alors que dans le modèle de Deneubourg elles en possèdent possède une. En effet on définit une probabilité P<sub>p</sub> qu’une fourmi ramasse une fourmi morte et la porte. On définit également P<sub>d</sub> la probabilité qu’une fourmi portant un corps, le dépose.
+	</p>
+	<p>
+	On note : <br>
+	<img class="formule1" src="Images/formule-deneubourg-1.png" alt="Probabilités Deneubourg" title="Probabilités Deneubourg" /> <br>
+	Avec k1 et k2 deux paramètres de modèle et f est la proportion de cadavre de fourmis rencontrées durant les N dernières itérations.
+	</p>
+	<p>
+	On définit f comme étant la somme de tous M(i) d'une fourmi pour :<img class="formule2" src="Images/formule-deneubourg-2.png" alt="Somme probabilités" title="Somme probabilités" /> <br>
+	</p>
+	<p class="fin">
+	On constate dans ce modèle, le système évolue comme nous le souhaitions en effet on peut observer au bout d’un certain laps de temps que des tas se forme et que les fourmis parvienne donc bien a créé une forme de cimetière.
+	</p>
+
+</body>	
+</html>
