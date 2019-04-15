@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Ants Clustering ARE</title>
+	<link rel="stylesheet" type="text/css" href="ants.css">
+</head>
+<body>
+	<h1>Ants Corpse Clustering</h1>
+	<h2 class="infos">Sommaire</h2>
+	<div class="liste">
+		<ol class="sommaire">
+			<a href=#membres><li >Membres du groupe</li></a>
+			<a href=#introduction><li >Introduction du projet</li></a>
+			<a href=#principe><li >Principe physique</li></a>
+			<a href=#first><li >Premier modèle d'approche</li></a>
+			<a href=#deneubourg><li >Le modèle de Deneubourg simplifié</li></a>
+			<a href=#semaines><li>Compte-rendu hebdomadaire</li></a>
+			<a href=#resultats><li>Exploitation des résultats</li></a>
+		</ol>
+	</div>
+
+	<h2 class="infos" id="membres">Membres du groupe</h2>
+	<div class="liste">
+		<ul>
+			<li><strong>ABED</strong> Selmen</li>
+			<li><strong>CHOQUER</strong> Laurène</li>
+			<li><strong>HEBERT</strong> Thomas</li>
+			<li><strong>NATCHIMIE</strong> Dylan</li>
+		</ul>
+	</div>
+	
+	<h2 class="intro" id="introduction">Introduction du projet</h2>
+	<p>
+	Dans le cadre de notre ARE nous avons choisi de porter notre étude sur le comportement des fourmis. Plus particulièrement nous allons nous intéresser à la manière dont les fourmis agrègent leur cadavre. En effet on constate que dans la nature les fourmis ont tendance à réunir leur cadavre en vastes tas réguliers dans l'espace. Ce phénomène est observable à l'intérieur ou à l'extérieur des fourmilières (dans le cas des fourmilières, une pièce de la fourmilière est spécialement dédiée au rassemblement des cadavres de fourmis).
+	</p>
+	
+	<h2 id="principe">Principe physique</h2>
+	<p>
+	Après le décès d’une fourmi celle-ci dégage une substance chimique. Cette substance une fois libéree dans l’air attire les autres fourmis. Celles-ci on alors une réaction qu’on peut qualifier de mécanique.  En effet une fois que ce signal chimique est émis dans l’air une fourmi aux alentours se saisit du cadavre afin de l’emmener directement sur un tas qui peut s’apparenter à nos cimetières. C’est à ce phénomène que nous allons nous intéresser dans notre étude. Les images suivantes illustrent parfaitement le phénomène.
+	</p>
+	<img class="clustering" src="Images/clustering-effect.png" alt="Clustering effect" title="Clustering effect" />
+	<p>
+	Ainsi nous avons décidé de modéliser ce phénomène et de d'implémenter notre modélisation en utilisant le langage Python. Pour aboutir à des résultats intéressants, nous avons décidé de présenter plusieurs modèles ayant chacun leur avantage et leur inconvénient et de les confronter entre eux.
+	</p>
+	<p>
+	Dans tous les cas nos fourmis peuvent être dans trois états distincts: <br>
+	Dans le premier elles sont vivantes. <br> <img class="fourmi" src="Images/fourmi-vivante.png" alt="Fourmi vivante" title="Fourmi vivante" /> <br>
+	Dans le second cas elles sont mortes. <br> <img class="fourmi" src="Images/fourmi-morte.png" alt="Fourmi morte" title="Fourmi morte" /> <br>
+	Dans le dernier cas elles sont vivantes mais elles portent une fourmi morte. <br> <img class="fourmi" src="Images/fourmi-transport.png" alt="Fourmi qui transporte un cadavre" title="Fourmi qui transporte un cadavre" /> <br>
+	</p>
+	
+	<h2 id="first">Premier modèle d'approche</h2>
+	<p>
+	Ce modèle propose de modéliser le comportement des fourmis. Ainsi ce modèle prend en compte différentes conditions. On suppose tout d’abord que les fourmis n’ont pas de mémoire ainsi elles peuvent transporter plusieurs fois le même corps et elle le dépose dès qu’elle détecte la présence d’un autre corps dans les environs. La fourmi ne prend en compte que la présence d'autres fourmis dans son voisinage afin de prendre une décision donc aucune probabilité n'est définie. De plus dans ce modèle la fourmi à la possibilité de se déplacer dans 8 directions de manière aléatoire néanmoins la fourmi ne peut pas marcher sur un obstacle, ainsi elle ne peut pas marcher sur une fourmi morte ou vivante. <br>
+	Néanmoins dans ce modèle on constate que les fourmis ont du mal à former des tas de cadavres et qu’elles peuvent se retrouver coincées entre des corps ce qui pose problème dans le programme.
+	</p>
+	
+	<h2 id="deneubourg">Le modèle de Deneubourg simplifié</h2>
+	<p>
+	Nous avons implémenté un second modèle afin de pouvoir comparer l'efficacité des différents modèles. Ce modèle s'inspire d'un modèle déjà existant : le modèle de Deneubourg. Toutefois, nous avons décidé de simplifier son fonctionnement pour pouvoir l'implémenter avec Python.<br>
+	Dans le modèle de Deneubourg original, chaque fourmi dispose d'une mémoire M. Cette mémoire permet d'influencer la probabilité qu'a une fourmi vivante de déposer ou prendre un corps. Nous avons décider de supprimer cette mémoire. Les probabilité ne seront influencées que par le voisinage de la fourmi. On définit alors deux constantes  k<sub>1</sub>  et  k<sub>2</sub> .<br>
+	La probabilité  P<sub>p</sub>  qu'a une fourmi vivante de prendre un corps qu'elle croise est alors 0 si le nombre de fourmi morte voisine du corps est plus grand que k<sub>1</sub> sinon elle vaut 1.<br>
+	La probabilité  P<sub>d</sub>  qu'a une fourmi porteuse de déposer un corps qu'elle porte est alors 1 si le nombre de fourmi morte voisine du corps est plus grand que k<sub>2</sub> sinon elle vaut 0.<br>
+	</p>
+	
+	<p>
+	Le modèle de Deneubourg simplifié respecte les règles suivantes : <br>
+	</p>
+	
+	<div class="semaine">
+		<ul>
+			<li>Chaque fourmi se déplace selon 4 directions de façon aléatoire.</li>
+			<li>Chaque fourmi à trois etats elle peut être soit morte, soit vivante, soit vivante et porteuse d'une fourmi morte.</li>
+			<li>Une fourmi vivante peut marcher sur un cadavre de fourmi mais pas sur une fourmi vivante (porteuse ou non).</li>
+			<li>Une fourmi vivante (non porteuse) à une probabilité  P<sub>p</sub>  de ramasser un cadavre qu'elle rencontre.</li>
+			<li>Une fourmi porteuse à une probabilité  P<sub>d</sub>  de déposer le corps qu'elle porte.</li>
+		</ul>
+	</div>
+	
+	<h2 id="semaines">Compte-rendu hebdomadaire</h2>
+	<div class="semaine">
+		<ul>
+			<li><strong>Semaine 1</strong><br>
+			<br>Choix du premier sujet basé sur le système Google du PageRank, utilisant le principe mathématique des chaînes de Markov. Recherche de méthodes de récupérations des liens internet.</li>
+			<li><strong>Semaine 2</strong><br>
+			<br>Première idée de récupération des hyperliens : le webcrawler. Approche de codage du webcrawler et test sur des sites simples. Apprentissage du module networkx pour représenter des graphes comme affichage graphique.</li>
+			<li><strong>Semaine 3</strong><br>
+			<br>Remise en question de l’utilité du webcrawler au niveau de l’affichage final. Remise en question totale du sujet et recherche d’un nouveau sujet en parallèle.</li>
+			<li><strong>Semaine 4</strong><br>
+			<br>Adoption d’un nouveau sujet portant sur la récupération des cadavres par les fourmis. Codage de la première approche de modèle : le modèle Unige, visant à étudier la formation de tas de corps de fourmis avec le temps. Ce modèle interdit aux fourmis d’escalader les cadavres. Apprentissage en parallèle du module tkinter pour les animations graphiques.</li>
+			<li><strong>Semaine 5</strong><br>
+			<br>Réglages des problèmes de téléportation des fourmis sur le modèle d’Unige basé sur des inversion lignes/colonnes due à la forme de l’affichage tkinter et idée de création d’un menu de sélection des valeurs en paramètre du modèle. Découverte d’un 2e modèle : le modèle de Deneubourg, qui associe la récupération des corps à une probabilité et autorise les fourmis à escalader les cadavres.</li>
+			<li><strong>Semaine 6</strong><br>
+			<br>Début de programmation du 2e modèle, codage d’une classe « Ant » pour créer un espace mémoire pour chaque fourmi. Discussion sur la méthode de publication du travail sur github.</li>
+			<li><strong>Semaine 7</strong><br>
+			<br>Adaptation des programmes du modèle d’Unige avec la classe « Ant », apparition de problèmes de téléportation et de disparition des fourmis. Crash total de l’animation au bout d’un certain temps.</li>
+			<li><strong>Semaine 8</strong><br>
+			<br>Création du squelette html et css du site de rendu à publier sur github. Résolution de la téléportation/disparition des fourmis et du problème de crash. Codage d’un compteur de tas de cadavres sur un instant donné, préparation des courbes résultats pour le blog final.</li>
+			<li><strong>Semaine 9</strong><br>
+			<br>Finissage du blog html de github, exploitation des résultats manquants, création des slides de présentation de l'oral, répartition et écriture du texte de l'oral et répétitions.</li>
+		</ul>
+	</div>
+		
+	<h2 id="resultats">Exploitation des résultats</h2>
+	<h4>Comparaison des 2 modèles</h4>
+	
+	<p>
+	Tout d’abord nous allons comparer les deux modèles que nous avons implémenté au début de la simulation. <br>
+	Pour notre première approche on constate cette évolution de système :
+	</p>
+	<img class="fourmi" src="Images/debut-unige.png">
+	<img class="fourmi" src="Images/fin-unige.png">
+	<img class="courbe0" src="Images/courbe-unige.png">
+	
+	<p>
+	On peut donc aisément constater qu’au bout de plusieurs minutes aucun tas ne s’est formé mais qu’il y en encore plusieurs bien distincts. On peut également noter grâce à la courbe que le nombre de tas a une fluctuation assez importante. Ainsi on peut donc en déduire qu’il faut introduire de nouveau critère afin de faire évoluer notre modèle et rendre la formation de tas plus optimale.<br>
+	C’est la raison pour laquelle nous avons fait le choix d’implémenter le second modèle.
+	</p>
+	
+	<p>
+	Dans ce second modèle on constate cette évolution :
+	</p>
+	<img class="fourmi" src="Images/debut-deneubourg.png">
+	<img class="fourmi" src="Images/fin-deneubourg.png">
+	
+	<p>
+	On peut donc constater qu’un tas se forme rapidement et qu’il est assez compact donc on peut en déduire que l’introduction des probabilités permet de former un tas plus compact, comme le montre cette courbe :
+	</p>
+	
+	<img class="courbe0" src="Images/courbe-deneubourg.png">
+	
+	<p>
+	Ainsi le deuxième modèle se rapproche plus de la réalité. En effet le premier modèle ne prend en compte en aucune façon le fait que les fourmis ont une intelligence alors que le deuxième modèle prend en compte en partie ce phénomène. Ainsi on peut en conclure que le deuxième modèle est plus proche de la réalité et qu’il forme également des tas plus rapidement. Ainsi dans la suite de notre étude nous allons nous concentrer sur le second modèle.
+	</p>
+	
+	<h4>Résultats du second modèle simplifié</h4>
+	
+	<p class="cas">1<sup>er</sup> cas :</p>
+	<p>On constate que lorsque la probabilité de déposer ou de prendre un corps correspond à ces courbes :</p>
+	<img class="fourmi" src="Images/proba-pick-up.png" alt="Probabilité de prendre un corps" title="Probabilité de prendre un corps">
+	<img class="fourmi" src="Images/proba-drop.png" alt="Probabilité de déposer un corps" title="Probabilité de déposer un corps">
+	<p>Ou autrement dit lorsque qu’une fourmi morte n’a aucun voisin elle sera déplacée vers une autre case la fourmi vivante déposera les fourmis mortes lorsqu’elle trouvera au moins une autre fourmi morte.
+	</p>
+	<p>
+	En laissant tourner 4 minutes (soit la moyenne qu’il faut pour former un tas avec des probabilités optimales) on constate ce résultat :
+	</p>
+	<img class="fourmi" src="Images/4min-aucun-tas.png" alt="Aucun tas" title="Aucun tas">
+	<p>
+	On constate donc que l’on est loin d’avoir  formé un seul et unique tas comme on peut le constater sur cette courbe qui vise à compter le nombre de tas :
+	</p>
+	<img class="courbe0" src="Images/courbe-aucun-tas.png" alt="Aucun tas" title="Aucun tas"><br>
+	<p class="cas">2<sup>ème</sup> cas : formation d'un tas unique</p>
+	<p>
+	Lorsque l’on prend un autre cas où cette fois ci lorsque qu’une fourmi morte a moins de 4 voisins elle sera déplacée vers une autre case. La fourmi vivante déposera les fourmis mortes lorsqu’elle trouvera plus de 4 autres fourmis mortes.
+	</p>
+	<img class="fourmi" src="Images/courbe-drop1.png">
+	<img class="fourmi" src="Images/courbe-pick-up1.png">
+	<img class="fourmi" src="Images/un-seul-tas.png">
+	<img class="courbe0" src="Images/courbe-un-seul.png">
+	
+	<p class="cas">3<sup>ème</sup> cas : plus de morts que de vivants</p>
+	<p>
+	Nous avons voulu montrer par la suite l’impact de la population de fourmis vivantes sur la formation de tas nous avons ainsi lancé notre système avec 20 fourmis vivantes pour 400 fourmis mortes. Concernant les probabilités nous avons choisi le cas ou si une fourmi morte possède moins de 4 voisins elle est ramassé par une fourmi vivante et elle sera déposée sur une case ayant au moins 4 voisins.<br>
+	<br>
+	On constate au bout de 4 minutes l’état final suivant :<br>
+	</p>
+	<img class="fourmi" src="Images/+m_-v.png">
+	<p>
+	On peut donc voir sur la courbe du nombre de tas que l’on arrive pas à avoir un seul tas unique. En effet on peut noter que les fourmis semblent avoir du mal a déplacer les fourmis et donc à former un tas.<br>
+	</p>
+	<img class="courbe0" src="Images/courbe_+m_-v.png">
+	<p class="cas">4<sup>ème</sup> cas : beaucoup de vivants et peu de morts</p>
+	<p>
+	Dans le cas inverse que celui montré précédemment, on peut constater quelques différences. En effet dans l’autre cas, on constate que des tas parvenaient à se former alors que dans le cas étudié, on ne constate aucun tas.<br>
+	</p>
+	<img class="fourmi" src="Images/full-green.png">
+	<p>La courbe représentant le nombre de tas vient corroborer le propos ci-dessus : <br></p>
+	<img class="courbe0" src="Images/courbe-full-green.png">
+	<p class="cas">5<sup>ème</sup> cas : autant de vivants que de morts</p>
+	<p>
+	On a étudié par la suite le cas où il y a autant de fourmis vivantes que de fourmis mortes. On peut donc constater qu’aucun tas ne se forme. En effet les fourmis vivantes ne déposent jamais les fourmis mortes.<br></p>
+	<img class="fourmi" src="Images/same.png">
+	<img class="courbe0" src="Images/courbe-same.png">
+</body>	
+</html>

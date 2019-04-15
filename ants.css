@@ -8,7 +8,7 @@ body
 	font-family: tahoma,verdana,sans-serif;
 	font-size: 25px;
 	color: white ;
-	background-image:url(Images/fond-site.jpg);
+	background-image:url(Images/black.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -36,16 +36,17 @@ h1
 	padding-left:30px;
 }
 
-p
+p,.semaine,pre
 {
 	width:850px;
 	margin:auto;
 	text-align:justify;
 	padding-top:50px;
 	line-height:150%;
+	
 }
 
-h2
+h2,h4
 {
 	width:850px;
 	margin:auto;
@@ -118,6 +119,31 @@ li
 
 a
 {
-	color:cyan;
+	color:blue;
 }
-	
+
+.semaine li
+{
+	padding-bottom:20px;
+}
+
+.sommaire li
+{
+	list-style-type:upper-roman;
+}
+
+.courbe0
+{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	height:auto;
+	width:900px;
+	padding:40px;
+}
+
+.cas
+
+{
+	font-weight: bold;
+}
